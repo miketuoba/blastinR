@@ -1,4 +1,4 @@
-#a function to run blast from within R
+#a function to run the different blast serches from within R
 blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
   
   colnames <- c("qseqid","sseqid","pident","length","mismatch","gapopen","qstart",
