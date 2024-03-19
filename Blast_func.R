@@ -26,8 +26,6 @@ blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
   return(bl_out)
 }
 
-results = blstinr(btype = "C:\\Program Files\\NCBI\\blast-2.15.0+\\bin\\blastn.exe", "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2.fa","C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
-results
 blastn <- blstinr (dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2",
                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
 blastn
@@ -54,28 +52,7 @@ tblastn
 
 
 
-
-# # Function to retrieve hit sequences from BLAST database
-# retrieve_hit_seq <- function(hit_ids, blastdb)
-#   {
-#   hit_sequences <- list()
-# 
-#   for (hit_id in hit_ids) {
-#     # Use blastdbcmd to retrieve sequence by ID from BLAST database
-#     hit_sequence <- system2(
-#       command = "blastdbcmd",
-#       args = c("-db", blastdb, "-entry", hit_id),
-#       stdout = TRUE,
-#       wait = TRUE
-#     )
-# 
-#     hit_sequences[[hit_id]] <- hit_sequence
-#   }
-#    writeXStringSet(hit_sequences, "output_hitSeq.fa", format = "fasta")
-# 
-#   return(hit_sequences)
-# }
-
+#a function to retrieve the hit sequence from blast search results from within R
 retrieve_hit_seqs <- function(query_ids, blast_results, blastdb) {
   hit_sequences <- list()
   
@@ -93,14 +70,10 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb) {
     
     hit_sequences[[paste(query_id, hitSeq, sep = "_")]] <- hit_sequence
   }
-  #try writelines, or write, write_lines
+  
   
   return(hit_sequences)
 }
-
-
-qry_ids <- unique(blastx$qseqid)
-mul_seq <- retrieve_hit_seqs(qry_ids, blastx, "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS")
 
 
 qry_ids <- unique(blastx$qseqid)
