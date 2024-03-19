@@ -28,3 +28,87 @@ blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
 
 results = blstinr(btype = "C:\\Program Files\\NCBI\\blast-2.15.0+\\bin\\blastn.exe", "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2.fa","C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
 results
+blastn <- blstinr (dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2",
+                   qry = "C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
+blastn
+
+blastp <- blstinr(btype = "blastp",
+                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_aa",
+                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hba_aa.fasta")
+blastp
+
+blastx <- blstinr(btype = "blastx",
+                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS",
+                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\genomes_Seqs_SARS.fasta")
+blastx
+
+tblastx <- blstinr(btype = "tblastx",
+                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_n",
+                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hba_n.fasta")
+tblastx
+
+tblastn <- blstinr(btype = "tblastn",
+                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_n",
+                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_aa.fasta")
+tblastn
+
+
+
+
+# # Function to retrieve hit sequences from BLAST database
+# retrieve_hit_seq <- function(hit_ids, blastdb)
+#   {
+#   hit_sequences <- list()
+# 
+#   for (hit_id in hit_ids) {
+#     # Use blastdbcmd to retrieve sequence by ID from BLAST database
+#     hit_sequence <- system2(
+#       command = "blastdbcmd",
+#       args = c("-db", blastdb, "-entry", hit_id),
+#       stdout = TRUE,
+#       wait = TRUE
+#     )
+# 
+#     hit_sequences[[hit_id]] <- hit_sequence
+#   }
+#    writeXStringSet(hit_sequences, "output_hitSeq.fa", format = "fasta")
+# 
+#   return(hit_sequences)
+# }
+
+retrieve_hit_seqs <- function(query_ids, blast_results, blastdb) {
+  hit_sequences <- list()
+  
+  for (query_id in query_ids) {
+
+    query_results <- blast_results[blast_results$qseqid == query_id, ]
+    hitSeq <- query_results$sseqid[1]
+    
+    hit_sequence <- system2(
+      command = "blastdbcmd",
+      args = c("-db", blastdb, "-entry", hitSeq),
+      stdout = TRUE,
+      wait = TRUE
+    )
+    
+    hit_sequences[[paste(query_id, hitSeq, sep = "_")]] <- hit_sequence
+  }
+  #try writelines, or write, write_lines
+  
+  return(hit_sequences)
+}
+
+
+qry_ids <- unique(blastx$qseqid)
+mul_seq <- retrieve_hit_seqs(qry_ids, blastx, "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS")
+
+
+qry_ids <- unique(blastx$qseqid)
+qry_ids
+mul_seq <- retrieve_hit_seqs(qry_ids, blastx, "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS")
+print(mul_seq)
+
+qry_id1 <- blastn$qseqid[1]
+ 
+hit_seq <- retrieve_hit_seqs(qry_id1, blastn, "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2" )
+hit_seq
