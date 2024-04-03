@@ -21,5 +21,7 @@ blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
                    separate(col = 1, into = colnames,sep = "\t",
                             convert = TRUE) %>% 
                    mutate(Range = send - sstart)}
+                
                }  
+  return(bl_out)
 }
