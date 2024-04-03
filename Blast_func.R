@@ -26,31 +26,6 @@ blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
   return(bl_out)
 }
 
-blastn <- blstinr (dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2",
-                   qry = "C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
-blastn
-
-blastp <- blstinr(btype = "blastp",
-                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_aa",
-                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hba_aa.fasta")
-blastp
-
-blastx <- blstinr(btype = "blastx",
-                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS",
-                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\genomes_Seqs_SARS.fasta")
-blastx
-
-tblastx <- blstinr(btype = "tblastx",
-                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_n",
-                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hba_n.fasta")
-tblastx
-
-tblastn <- blstinr(btype = "tblastn",
-                    dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_n",
-                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\hbb_aa.fasta")
-tblastn
-
-
 
 #a function to retrieve the hit sequence from blast search results from within R
 retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile) 
@@ -72,9 +47,7 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile)
     
     output_lines <- c(output_lines, hit_sequence)
     
-    ###hit_sequences[[paste(query_id, hitSeq, sep = "__")]] <- hit_sequence
   }
-  ###writeLines(unlist(hit_sequences), con = outfile)
 
   writeLines(output_lines, con = outfile)
   
@@ -104,27 +77,3 @@ make_blast_db <- function(infile, dbtype = "nucl", outfile = NULL)
 
 
   
-
-
-qry_ids <- unique(blastx$qseqid)
-qry_ids
-mul_seq <- retrieve_hit_seqs(qry_ids, blastx, "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\spike_protein_seqs_SARS", 
-                             outfile = "mul_hit_seq.txt")
-print(mul_seq)
-
-qry_id1 <- blastn$qseqid[1]
- 
-hit_seq <- retrieve_hit_seqs(qry_id1, blastn, "C:\\Users\\sarah\\OneDrive\\Documents\\Arch2", outfile = "Arc_hitSeq.txt")
-hit_seq
-
-make_blast_db(infile = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\dnaSeq.fasta", outfile = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\dnaSeq")
-make_blast_db(infile = "prot.fasta", dbtype = "prot", outfile = "prot")
-make_blast_db(infile = "aa.fasta", dbtype = "prot", outfile = "aa")
-
-v1 = Sys.which("blastn")
-v = Sys.which("blastj")
-f = Sys.which("makeblastdb")
-f
-v
-nchar(v)
-nchar(v1)
