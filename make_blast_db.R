@@ -1,5 +1,6 @@
 #a function to make blast data given the fasta file from within R
-make_blast_db <- function(infile, dbtype = "nucl", outfile = NULL) {
+#default database type is nucleotide. 
+make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL) {
   # Check if output file name is provided
   if (length(outfile) == 0) {
     stop("Output file name must be included.")
