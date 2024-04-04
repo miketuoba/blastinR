@@ -2,8 +2,9 @@
 #default database type is nucleotide. 
 make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL) {
   # Check if output file name is provided
-  if (length(outfile) == 0) {
-    stop("Output file name must be included.")
+  if(is.null(outfile))
+  {
+    outfile <- gsub("\\.[^.]*$", "", infile)
   }
   
   result <- system2(
@@ -15,5 +16,6 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NUL
     stdout = TRUE,
     wait = TRUE
   )
+  print(paste("Blast databae was sucssesful. Outfile name: ", outfile))
   
 }
