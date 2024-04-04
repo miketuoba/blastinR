@@ -24,6 +24,7 @@ blstinr <- function(btype = "blastn", dbase,qry,numt=1,...){
                 
                }  
   return(bl_out)
+<<<<<<< HEAD
 }
 
 
@@ -33,7 +34,7 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile)
   ###hit_sequences <- list()
   output_lines <- character()
   for (query_id in query_ids) {
-
+    
     query_results <- blast_results[blast_results$qseqid == query_id, ]
     hitSeq <- query_results$sseqid[1]
     
@@ -48,7 +49,7 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile)
     output_lines <- c(output_lines, hit_sequence)
     
   }
-
+  
   writeLines(output_lines, con = outfile)
   
   return(output_lines)
@@ -72,8 +73,11 @@ make_blast_db <- function(infile, dbtype = "nucl", outfile = NULL)
     stdout = TRUE,
     wait = TRUE
   )
-
+  
 }
 
 
-  
+
+=======
+  }
+>>>>>>> c32facfd780f1ef9dfc85ac98cc212d1551212d5
