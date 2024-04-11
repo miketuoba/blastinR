@@ -1,6 +1,6 @@
 #a function to retrieve the hit sequence from blast search results from within R
 retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile) {
-  ###hit_sequences <- list()
+
   output_lines <- character()
   for (query_id in query_ids) {
     
@@ -17,12 +17,8 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile) {
     
     output_lines <- c(output_lines, hit_sequence)
     
-    ###hit_sequences[[paste(query_id, hitSeq, sep = "__")]] <- hit_sequence
   }
-  ###writeLines(unlist(hit_sequences), con = outfile)
-  
   writeLines(output_lines, con = outfile)
   
   return(output_lines)
-  #return(hit_sequences)
 }
