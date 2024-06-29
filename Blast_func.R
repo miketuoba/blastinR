@@ -1,4 +1,4 @@
-#a function to run the different blast serches from within R
+# a function to run the different blast searches from within R
 # Parameters:
 # btype: a string of the blast search, default is blastn
 # dbase: a string of blast data base file name/path
