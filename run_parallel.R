@@ -1,6 +1,19 @@
+if (!require(foreach)) {
+  install.packages("foreach", dependencies = TRUE)
+  library(foreach)
+} else {
+  library(foreach)
+}
 
-library(foreach)
-library(doParallel)
+if (!require(doParallel)) {
+  install.packages("doParallel", dependencies = TRUE)
+  library(doParallel)
+} else {
+  library(doParallel)
+}
+
+# library(foreach)
+# library(doParallel)
 
 # a function to run blastr in parallel given the number of cores or threads
 # Parameters: 

@@ -1,4 +1,9 @@
-library(tidyverse)
+if (!require(tidyverse)) {
+  install.packages("tidyverse", dependencies = TRUE)
+  library(tidyverse)
+} else {
+  library(tidyverse)
+}
 options(scipen = 999) # avoid scientific notation
 
 # generate different fasta db's and fasta files for query
@@ -12,13 +17,13 @@ for(seq in num_sequences){
     random_fasta_generator(seq, len, is_db = F)
   }
 }
-127557
+
 #-------------------------------Benchmarking Starts-----------------------------#
 # Select sizes for the databases and fasta files
-num_sequences_db <- c(10000, 20000, 50000, 100000, 200000, 500000)
+num_sequences_db <- c(50000, 100000, 200000, 500000)
 sequence_length_db <- c(2000)
 
-num_sequences <- c(1000, 2000, 5000, 10000, 20000, 50000)
+num_sequences <- c(5000, 10000, 20000, 50000, 100000, 200000)
 sequence_length <- c(2000)
 
 # Generate an empty list for the results
@@ -168,6 +173,8 @@ extract_data <- function(nested_list) {
 # Transform nested list to data frame
 df <- extract_data(bench)
 
+write.csv(df, file = "results.csv")
+
 
 #--------------------------Data Visualization------------------------#
 library(ggplot2)
@@ -176,12 +183,12 @@ library(ggplot2)
 df$cores <- factor(df$cores, levels = c(1, 2, 4, 8))
 
 # Create a plot
-ggplot(df, aes(x = cores, y = log10(time), color = as.factor(sequence_size), shape = as.factor(db_size))) +
+image <- ggplot(df, aes(x = cores, y = log2(time), color = as.factor(sequence_size), shape = as.factor(db_size))) +
   geom_point(size = 3) +
   geom_line(aes(group = interaction(sequence_size, db_size))) +
-  labs(title = "Running Time vs Number of Cores",
+  labs(title = "Running Time (log-transformed) vs Number of Cores",
        x = "Number of Cores/Threads",
-       y = "Running Time (seconds)",
+       y = "Running Time (seconds in log2)",
        color = "Sequence Size",
        shape = "Database Size") +
   scale_x_discrete(labels = c(1, 2, 4, 8)) +
@@ -191,3 +198,6 @@ ggplot(df, aes(x = cores, y = log10(time), color = as.factor(sequence_size), sha
         axis.title.y = element_text(size = 14), # Adjust y-axis title size
         legend.title = element_text(size = 12), # Adjust legend title size
         legend.text = element_text(size = 10))  # Adjust legend text size
+
+print(image)
+ggsave(filename = "benchmark_image_log2.png", plot = image, width = 10, height = 8, bg = "white")
